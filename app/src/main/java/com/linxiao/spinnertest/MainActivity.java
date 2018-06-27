@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
 
   private WindowManager mWindowManager;
-  private Spinner mSpinnerView;
+  private View mSpinnerInflate;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -28,12 +28,12 @@ public class MainActivity extends AppCompatActivity {
   }
 
   public void text(View view) {
-    //在windowManager中加载Spinner
+    //在windowManager中加载Spinner,在targerApi>22并且sdk>6.0的时候，需要动态申请SYSTEM_ALERT_WINDOW权限
     mWindowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
     WindowManager.LayoutParams params = initWindowManagerParams();
 
-    View inflate = View.inflate(this, R.layout.view_spinner, null);
-    mSpinnerView = inflate.findViewById(R.id.sp_camera);
+    mSpinnerInflate = View.inflate(this, R.layout.view_spinner, null);
+    Spinner mSpinnerView = mSpinnerInflate.findViewById(R.id.sp_camera);
     //数据
     ArrayList<String> list = new ArrayList<>();
     list.add("北京");
@@ -51,14 +51,19 @@ public class MainActivity extends AppCompatActivity {
     mSpinnerView.setSelection(1);
 
     //点击事件
-    mSpinnerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    mSpinnerView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
       @Override
-      public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        // do something
+      public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        //do something
+      }
+
+      @Override
+      public void onNothingSelected(AdapterView<?> parent) {
+
       }
     });
 
-    mWindowManager.addView(inflate, params);
+    mWindowManager.addView(mSpinnerInflate, params);
   }
 
   @NonNull
@@ -85,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
   protected void onPause() {
     super.onPause();
     if (mWindowManager != null) {
-      mWindowManager.removeView(mSpinnerView);
+      mWindowManager.removeView(mSpinnerInflate);
     }
   }
 }
