@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <solid android:color="@android:color/transparent" />
+
+            <padding
+                android:bottom="2dp"
+                android:top="2dp" />
+        </shape>
+    </item>
+    <item>
+        <bitmap
+            android:gravity="end|center_vertical"
+            android:src="@mipmap/ic_ball_popup_multiple_down" />
+    </item>
+</layer-list>
